@@ -12,5 +12,5 @@ class App {
 
 fun main() {
     println(App().greeting)
-    DesktopCaptureServer().launchApp()
+    DisplayStreamerClient().launchApp()
 }
