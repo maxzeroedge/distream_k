@@ -1,8 +1,7 @@
-package com.palashmax
+package com.palashmax.server
 
-import com.sun.xml.internal.ws.api.message.Message
+import com.palashmax.DesktopCaptureServer
 import org.springframework.beans.factory.annotation.Autowired
-import java.nio.charset.Charset
 import java.util.concurrent.CopyOnWriteArraySet
 import java.util.concurrent.Executors
 import java.util.concurrent.TimeUnit
@@ -11,11 +10,11 @@ import javax.websocket.server.ServerEndpoint
 
 @ServerEndpoint("/display")
 //@Component
-class SocketEndpoint {
+class SocketEndpoint { //: Endpoint()
 	@Autowired
 	private lateinit var desktopCaptureServer: DesktopCaptureServer
 
-	private val chatEndpoints: Set<SocketEndpoint> = CopyOnWriteArraySet<SocketEndpoint>()
+	private val chatEndpoints: Set<SocketEndpoint> = CopyOnWriteArraySet()
 	private lateinit var session: Session
 	private val timer = Executors.newSingleThreadScheduledExecutor()
 
@@ -42,8 +41,14 @@ class SocketEndpoint {
 		timer.shutdown()
 	}
 
+	/*override fun onOpen(session: Session?, config: EndpointConfig?) {
+		if (session != null) {
+			this.onOpen(session)
+		}
+	}*/
+
 	@OnError
-	fun onError(session: Session, throwable: Throwable) {
+	/*override*/ fun onError(session: Session, throwable: Throwable) {
 		// TODO:
 	}
 

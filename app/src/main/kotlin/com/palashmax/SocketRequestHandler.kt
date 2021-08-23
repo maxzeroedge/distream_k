@@ -19,6 +19,10 @@ class SocketRequestHandler(
 
 	private lateinit var timer: ScheduledExecutorService
 
+	fun convertToSendableFormat(inpuString: String) {
+		// TODO: Encode Message to be sent to UI
+	}
+
 	override fun run() {
 		// val outWriter = PrintWriter(clientSocket.getOutputStream(), true)
 		val outStream = clientSocket.getOutputStream()
@@ -29,25 +33,25 @@ class SocketRequestHandler(
 		val getMatcher = Pattern.compile("^GET").matcher(data)
 		if(getMatcher.find()) {
 			val websocketKeyMatcher = Pattern.compile("Sec-WebSocket-Key: (.*)").matcher(data)
-			websocketKeyMatcher.find()
-			val acceptKey = Base64.getEncoder()
-				.encodeToString(
-					MessageDigest.getInstance("SHA-1")
-						.digest((websocketKeyMatcher.group(1) + "258EAFA5-E914-47DA-95CA-C5AB0DC85B11")
-							.toByteArray(Charset.forName("UTF-8"))))
-			val response = (
-				"""
-				HTTP/1.1 101 Switching Protocols
-				Connection: Upgrade
-				Upgrade: websocket
-				Sec-WebSocket-Accept: $acceptKey
-				""".trimIndent() + "\r\n\r\n"
-			).toByteArray(Charset.forName("UTF-8"))
-			// outWriter.write(response)
-			outStream.write(response, 0, response.size)
+			if(websocketKeyMatcher.find()){
+				val websocketKey = websocketKeyMatcher.group(1)
+				val acceptKey = Base64.getEncoder()
+					.encodeToString(
+						MessageDigest.getInstance("SHA-1")
+							.digest(
+								"${websocketKey}258EAFA5-E914-47DA-95CA-C5AB0DC85B11"
+									.toByteArray(Charsets.UTF_8)
+							)
+					)
+				val response = (
+						"HTTP/1.1 101 Switching Protocols\r\nConnection: Upgrade\r\nUpgrade: websocket\r\nSec-WebSocket-Accept: $acceptKey\r\n\r\n"
+						).toByteArray(Charsets.UTF_8)
+				// outWriter.write(response)
+				outStream.write(response, 0, response.size)
+			}
 		}
 		val frameGrabber = Runnable {
-			val resp = getScreenImageFun.invoke().toByteArray(Charset.forName("UTF-8"))
+			val resp = getScreenImageFun.invoke().toByteArray(Charsets.UTF_8)
 			outStream.write(resp, 0, resp.size)
 			// outWriter.println(getScreenImageFun.invoke())
 		}

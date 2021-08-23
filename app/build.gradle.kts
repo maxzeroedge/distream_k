@@ -38,7 +38,7 @@ dependencies {
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit")
 
     // https://mvnrepository.com/artifact/org.openpnp/opencv
-    // implementation("org.openpnp:opencv:4.5.1-2")
+    implementation("org.openpnp:opencv:4.5.1-2")
 
     // https://mvnrepository.com/artifact/org.springframework/spring-core
     implementation("org.springframework:spring-core:5.3.9")
@@ -47,7 +47,7 @@ dependencies {
     implementation("org.springframework:spring-context:5.3.9")
 
     // https://mvnrepository.com/artifact/javax.websocket/javax.websocket-api
-    compileOnly("javax.websocket:javax.websocket-api:1.1")
+    implementation("javax.websocket:javax.websocket-api:1.1")
 
     // https://mvnrepository.com/artifact/com.google.code.gson/gson
     //implementation("com.google.code.gson:gson:2.8.8")

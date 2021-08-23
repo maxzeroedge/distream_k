@@ -3,6 +3,7 @@
  */
 package com.palashmax
 
+
 class App {
     val greeting: String
         get() {
@@ -12,6 +13,10 @@ class App {
 
 fun main() {
     println(App().greeting)
-    // DesktopCaptureServer().createSocketServer()
+    /*ServerEndpointConfig.Builder.create(SocketEndpoint::class.java, "/display")
+        .configurator(ServerEndpointConfig.Configurator())
+        .build()*/
+    // TODO: Embedded Glassfish Server
+    DesktopCaptureServer().createSocketServer()
     // DisplayStreamerClient().launchApp()
 }

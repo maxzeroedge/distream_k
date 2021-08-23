@@ -8,9 +8,13 @@ class DisplayStreamerClient {
 	}
 
 	attemptConnection() {
-		this.socketClient = new WebSocket(this.socketUrl)
-		this.attachSocketEvents()
-		this.targetCanvas = document.getElementById("streamBody")
+		try{
+			this.socketClient = new WebSocket(this.socketUrl)
+			this.attachSocketEvents()
+			this.targetCanvas = document.getElementById("streamBody")
+		} catch (e) {
+			debugger
+		}
 	}
 
 	attachSocketEvents() {
