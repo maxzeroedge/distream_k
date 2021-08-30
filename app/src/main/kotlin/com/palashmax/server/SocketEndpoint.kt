@@ -1,18 +1,17 @@
 package com.palashmax.server
 
 import com.palashmax.DesktopCaptureServer
-import org.springframework.beans.factory.annotation.Autowired
 import java.util.concurrent.CopyOnWriteArraySet
 import java.util.concurrent.Executors
 import java.util.concurrent.TimeUnit
 import javax.websocket.*
 import javax.websocket.server.ServerEndpoint
 
+@ClientEndpoint
 @ServerEndpoint("/display")
 //@Component
 class SocketEndpoint { //: Endpoint()
-	@Autowired
-	private lateinit var desktopCaptureServer: DesktopCaptureServer
+	private val desktopCaptureServer = DesktopCaptureServer.getSelfInstance()
 
 	private val chatEndpoints: Set<SocketEndpoint> = CopyOnWriteArraySet()
 	private lateinit var session: Session

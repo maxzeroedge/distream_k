@@ -11,12 +11,16 @@ class App {
         }
 }
 
-fun main() {
+fun main(args: Array<String>) {
     println(App().greeting)
     /*ServerEndpointConfig.Builder.create(SocketEndpoint::class.java, "/display")
         .configurator(ServerEndpointConfig.Configurator())
         .build()*/
     // TODO: Embedded Glassfish Server
-    DesktopCaptureServer().createSocketServer()
-    // DisplayStreamerClient().launchApp()
+    /*if(args.isNotEmpty() && args[0] == "server") {
+        DesktopCaptureServer().createWebSocketServer()
+    } else {
+        DisplayStreamerClient().launchApp()
+    }*/
+    DesktopCaptureServer().createWebSocketServer()
 }

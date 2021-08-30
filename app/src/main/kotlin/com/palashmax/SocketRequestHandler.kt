@@ -1,6 +1,7 @@
 package com.palashmax
 
 import java.io.Closeable
+import java.io.DataOutputStream
 import java.io.PrintWriter
 import java.net.Socket
 import java.nio.charset.Charset
@@ -26,6 +27,7 @@ class SocketRequestHandler(
 	override fun run() {
 		// val outWriter = PrintWriter(clientSocket.getOutputStream(), true)
 		val outStream = clientSocket.getOutputStream()
+		val dataOut = DataOutputStream(outStream)
 		val inputReader = Scanner(clientSocket.getInputStream(), "UTF-8")
 
 		// Each WebSocket is initially a GET request, that is upgraded to websocket
@@ -51,8 +53,11 @@ class SocketRequestHandler(
 			}
 		}
 		val frameGrabber = Runnable {
-			val resp = getScreenImageFun.invoke().toByteArray(Charsets.UTF_8)
-			outStream.write(resp, 0, resp.size)
+			val resp = getScreenImageFun.invoke() //.toByteArray(Charsets.UTF_8)
+			//outStream.write(resp, 0, resp.size)
+			dataOut.writeUTF(resp)
+			/*dataOut.flush()
+			dataOut.close()*/
 			// outWriter.println(getScreenImageFun.invoke())
 		}
 		timer = Executors.newSingleThreadScheduledExecutor()
