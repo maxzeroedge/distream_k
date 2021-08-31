@@ -1,6 +1,7 @@
 package com.palashmax.server
 
 import com.palashmax.DesktopCaptureServer
+import jakarta.websocket.ClientEndpoint
 import java.util.concurrent.CopyOnWriteArraySet
 import java.util.concurrent.Executors
 import java.util.concurrent.TimeUnit

@@ -50,7 +50,7 @@ dependencies {
     implementation("org.apache.tomcat.embed:tomcat-embed-websocket:10.0.10")
 
     // https://mvnrepository.com/artifact/javax.websocket/javax.websocket-api
-    //implementation("javax.websocket:javax.websocket-api:1.1")
+    implementation("javax.websocket:javax.websocket-api:1.1")
 
     // https://mvnrepository.com/artifact/com.google.code.gson/gson
     //implementation("com.google.code.gson:gson:2.8.8")
