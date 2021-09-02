@@ -1,6 +1,7 @@
 package com.palashmax
 
-import com.palashmax.server.TomcatSocketServer
+//import com.palashmax.server.TomcatSocketServer
+import com.palashmax.server.SparkSocketServer
 import java.awt.Dimension
 import java.awt.Rectangle
 import java.awt.Robot
@@ -21,12 +22,12 @@ class DesktopCaptureServer: Closeable {
 	private var portNumber: Int = 9000
 
 	//@Value("\${system.fps}")
-	public var framesPerSecond: Long = 60
+	var framesPerSecond: Long = 60
 
 	private val clientSocketExecutors = Executors.newFixedThreadPool(5)
 	private val timer = Executors.newSingleThreadScheduledExecutor()
 	private lateinit var socketServer: ServerSocket
-	private lateinit var webSocketServer: TomcatSocketServer
+	private lateinit var webSocketServer: SparkSocketServer
 	// TODO: Use https://docs.oracle.com/javase/6/docs/api/java/awt/Robot.html for events
 
 	private var screenSize: Dimension = Toolkit.getDefaultToolkit().screenSize
@@ -84,13 +85,13 @@ class DesktopCaptureServer: Closeable {
 
 	fun createWebSocketServer(portNumber: Int = 9000) {
 		this.portNumber = portNumber
-		this.webSocketServer = TomcatSocketServer(portNumber)
+		this.webSocketServer = SparkSocketServer(portNumber)
 		webSocketServer.setup()
 	}
 
 	override fun close() {
-		socketServer!!.close()
-		webSocketServer!!.stop()
+		socketServer.close()
+		webSocketServer.stop()
 		timer.shutdown()
 		clientSocketExecutors.shutdown()
 	}

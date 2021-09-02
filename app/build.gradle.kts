@@ -47,13 +47,22 @@ dependencies {
     //implementation("org.springframework:spring-context:5.3.9")
 
     // https://mvnrepository.com/artifact/org.apache.tomcat.embed/tomcat-embed-websocket
-    implementation("org.apache.tomcat.embed:tomcat-embed-websocket:10.0.10")
+    // implementation("org.apache.tomcat.embed:tomcat-embed-websocket:10.0.10")
 
     // https://mvnrepository.com/artifact/javax.websocket/javax.websocket-api
-    implementation("javax.websocket:javax.websocket-api:1.1")
+    // implementation("javax.websocket:javax.websocket-api:1.1")
 
     // https://mvnrepository.com/artifact/com.google.code.gson/gson
-    //implementation("com.google.code.gson:gson:2.8.8")
+    implementation("com.google.code.gson:gson:2.8.8")
+
+    /*implementation("io.ktor:ktor-server-netty:1.6.3")
+    implementation("io.ktor:ktor-websockets:1.6.3")
+    implementation("ch.qos.logback:logback-classic:1.2.3")*/
+    implementation("com.sparkjava:spark-core:2.9.3")
+    implementation("com.sparkjava:spark-kotlin:1.0.0-alpha")
+    implementation("org.slf4j:slf4j-api:1.7.32")
+    implementation("org.slf4j:slf4j-simple:1.7.32")
+
 
 
 }
