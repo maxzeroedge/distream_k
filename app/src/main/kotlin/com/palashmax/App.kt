@@ -22,5 +22,5 @@ fun main(args: Array<String>) {
     } else {
         DisplayStreamerClient().launchApp()
     }*/
-    DesktopCaptureServer().createWebSocketServer()
+    DesktopCaptureServer().createSocketServer()
 }

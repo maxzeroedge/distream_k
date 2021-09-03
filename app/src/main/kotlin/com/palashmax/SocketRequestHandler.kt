@@ -19,9 +19,48 @@ class SocketRequestHandler(
 ): Runnable, Closeable {
 
 	private lateinit var timer: ScheduledExecutorService
+	private val BYTES_PER_REQUEST = 256
 
-	fun convertToSendableFormat(inpuString: String) {
+	fun convertToSendableFormat(inputString: String) {
 		// TODO: Encode Message to be sent to UI
+		// https://datatracker.ietf.org/doc/html/rfc6455#section-5.2
+		val arrayOfBytes = mutableListOf<BitSet>()
+		val stringBytes = inputString.toByteArray(Charsets.UTF_8)
+		var i = 0
+		while(i*BYTES_PER_REQUEST < stringBytes.size) {
+			var currentSize = 0
+			val bodyByteArray = BitSet()
+			// Add FIN bit
+			if(stringBytes.size > BYTES_PER_REQUEST) {
+				// This is not the final frame
+				if((i+1)*BYTES_PER_REQUEST < stringBytes.size) {
+					bodyByteArray.set(currentSize++, false)
+				}
+			} else {
+				// This is final frame
+				bodyByteArray.set(currentSize++, true)
+			}
+
+			// Add RSV-1,2,3 Bits
+			bodyByteArray.set(currentSize, currentSize+2, false)
+			currentSize += 3
+
+			// Add Opcode Bit: Sending as Text so 0x1, else, 0x2 for binary
+			bodyByteArray.set(currentSize, currentSize+2, false)
+			currentSize += 3
+			bodyByteArray.set(currentSize++, true)
+
+			// TODO: Set Masking Bit as 1 and Masking Key as "Something"
+			// Set Masking Bit as 0
+			bodyByteArray.set(currentSize++, false)
+
+			// TODO: Set Payload Length
+
+			// TODO: Set Masking Key if Masking Bit is 1: 0 or 4 bytes
+
+			i += 1
+			arrayOfBytes.add(bodyByteArray)
+		}
 	}
 
 	override fun run() {
