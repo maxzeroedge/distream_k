@@ -1,7 +1,9 @@
 package com.palashmax
 
 //import com.palashmax.server.TomcatSocketServer
+import com.palashmax.server.DistreamSpringApplication
 import com.palashmax.server.SparkSocketServer
+import org.springframework.boot.runApplication
 import java.awt.Dimension
 import java.awt.Rectangle
 import java.awt.Robot
@@ -84,9 +86,10 @@ class DesktopCaptureServer: Closeable {
 	}
 
 	fun createWebSocketServer(portNumber: Int = 9000) {
-		this.portNumber = portNumber
+		/*this.portNumber = portNumber
 		this.webSocketServer = SparkSocketServer(portNumber)
-		webSocketServer.setup()
+		webSocketServer.setup()*/
+		runApplication<DistreamSpringApplication>()
 	}
 
 	override fun close() {

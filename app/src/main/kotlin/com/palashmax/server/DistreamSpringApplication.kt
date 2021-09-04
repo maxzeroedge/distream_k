@@ -1,0 +1,6 @@
+package com.palashmax.server
+
+import org.springframework.boot.autoconfigure.SpringBootApplication
+
+@SpringBootApplication
+class DistreamSpringApplication

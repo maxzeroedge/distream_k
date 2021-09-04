@@ -22,6 +22,7 @@ class SocketRequestHandler(
 	private lateinit var timer: ScheduledExecutorService
 	private val BYTES_PER_REQUEST = (2.0.pow(64) - 1).roundToInt()
 	private val BYTES_PER_REQUEST_16 = (2.0.pow(16) - 1).roundToInt()
+	private val ENABLE_MASKING = false
 
 	fun convertToSendableFormat(inputString: String) {
 		// TODO: Encode Message to be sent to UI
@@ -55,7 +56,7 @@ class SocketRequestHandler(
 
 			// TODO: Set Masking Bit as 1 and Masking Key as "Something"
 			// Set Masking Bit as 0
-			bodyByteArray.set(currentSize++, false)
+			bodyByteArray.set(currentSize++, ENABLE_MASKING)
 
 			// Set Payload Length
 			val currentPayloadSize = min(payloadSize, BYTES_PER_REQUEST)
@@ -73,17 +74,33 @@ class SocketRequestHandler(
 			// Convert payload_len to Binary
 			bodyByteArray.set(currentSize, currentSize+7, false)
 			var payloadBin = payloadLen
-			for(i in 7 until 0 step -1) {
+			for(j in 7 downTo 0) {
 				if(payloadBin % 2 == 1) {
-					bodyByteArray.set(currentSize + i, true)
+					bodyByteArray.set(currentSize + j, true)
 				} else {
-					bodyByteArray.set(currentSize + i, false)
+					bodyByteArray.set(currentSize + j, false)
 				}
 				payloadBin /= 2
 			}
 
 
-			// TODO: Set Masking Key if Masking Bit is 1: 0 or 4 bytes
+			// Set Masking Key if Masking Bit is 1: 0 or 4 bytes
+			if(ENABLE_MASKING) {
+				// TODO: Maybe
+			}
+
+			// Set Payload
+			var currentBit = 0
+			for(j in 0 until min(payloadSize, BYTES_PER_REQUEST)) {
+				for(k in 0..7) {
+					currentBit = (stringBytes[(i*BYTES_PER_REQUEST) + j].toInt() shr k) and 1
+					if(currentBit == 0) {
+						bodyByteArray.set(currentSize++, false)
+					} else {
+						bodyByteArray.set(currentSize++, true)
+					}
+				}
+			}
 
 			i += 1
 			arrayOfBytes.add(bodyByteArray)
