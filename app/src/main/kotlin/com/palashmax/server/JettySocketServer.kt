@@ -1,4 +1,4 @@
-//package com.palashmax.server
+package com.palashmax.server
 //
 //import org.eclipse.jetty.server.Server
 //import org.eclipse.jetty.server.ServerConnector

@@ -1,4 +1,4 @@
-//package com.palashmax.server
+package com.palashmax.server
 //
 //import org.apache.catalina.startup.Tomcat
 //import java.io.File

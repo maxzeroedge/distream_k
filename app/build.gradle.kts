@@ -5,6 +5,8 @@ plugins {
     id("io.spring.dependency-management") version "1.0.11.RELEASE"
     kotlin("jvm") version "1.5.21"
     kotlin("plugin.spring") version "1.5.21"
+    // id("org.openjfx.javafxplugin") version "0.0.10"
+    application
 }
 
 group = "com.palashmax"
@@ -42,4 +44,9 @@ tasks.withType<KotlinCompile> {
 
 tasks.withType<Test> {
     useJUnitPlatform()
+}
+
+application {
+    // Define the main class for the application.
+    mainClass.set("com.palashmax.AppKt")
 }

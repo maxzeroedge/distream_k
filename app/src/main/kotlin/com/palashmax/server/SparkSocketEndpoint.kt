@@ -1,4 +1,4 @@
-//package com.palashmax.server
+package com.palashmax.server
 //
 //import com.google.gson.Gson
 //import com.palashmax.DesktopCaptureServer

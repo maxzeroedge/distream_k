@@ -1,4 +1,4 @@
-//package com.palashmax.server
+package com.palashmax.server
 //
 //import com.palashmax.DesktopCaptureServer
 ////import jakarta.websocket.ClientEndpoint

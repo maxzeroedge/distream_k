@@ -24,7 +24,7 @@ class SocketRequestHandler(
 	private val BYTES_PER_REQUEST_16 = (2.0.pow(16) - 1).roundToInt()
 	private val ENABLE_MASKING = false
 
-	fun convertToSendableFormat(inputString: String) {
+	fun convertToSendableFormat(inputString: String): List<BitSet> {
 		// TODO: Encode Message to be sent to UI
 		// https://datatracker.ietf.org/doc/html/rfc6455#section-5.2
 		val arrayOfBytes = mutableListOf<BitSet>()
@@ -105,6 +105,7 @@ class SocketRequestHandler(
 			i += 1
 			arrayOfBytes.add(bodyByteArray)
 		}
+		return arrayOfBytes
 	}
 
 	override fun run() {
@@ -136,9 +137,9 @@ class SocketRequestHandler(
 			}
 		}
 		val frameGrabber = Runnable {
-			val resp = getScreenImageFun.invoke() //.toByteArray(Charsets.UTF_8)
+			val resp = convertToSendableFormat(getScreenImageFun.invoke()) //.toByteArray(Charsets.UTF_8)
 			//outStream.write(resp, 0, resp.size)
-			dataOut.writeUTF(resp)
+			dataOut.writeUTF(resp[0].toString())
 			/*dataOut.flush()
 			dataOut.close()*/
 			// outWriter.println(getScreenImageFun.invoke())
