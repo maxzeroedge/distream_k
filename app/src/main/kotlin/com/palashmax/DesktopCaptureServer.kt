@@ -3,7 +3,9 @@ package com.palashmax
 //import com.palashmax.server.TomcatSocketServer
 import com.palashmax.server.DistreamSpringApplication
 import com.palashmax.server.SparkSocketServer
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.runApplication
+import org.springframework.stereotype.Component
 import java.awt.Dimension
 import java.awt.Rectangle
 import java.awt.Robot
@@ -17,13 +19,13 @@ import java.util.concurrent.Executors
 import java.util.concurrent.TimeUnit
 import javax.imageio.ImageIO
 
-//@Component
+@Component
 class DesktopCaptureServer: Closeable {
 
-	//@Value("\${host.port}")
+	@Value("\${host.port}")
 	private var portNumber: Int = 9000
 
-	//@Value("\${system.fps}")
+	@Value("\${system.fps}")
 	var framesPerSecond: Long = 60
 
 	private val clientSocketExecutors = Executors.newFixedThreadPool(5)

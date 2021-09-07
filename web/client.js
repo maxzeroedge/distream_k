@@ -2,7 +2,7 @@ class DisplayStreamerClient {
 	constructor({host, port}) {
 		host = host || "ws://localhost"
 		port = port || 9000
-		this.socketUrl = `${host}:${port}`
+		this.socketUrl = `${host}:${port}/app/display`
 		this.connected = false
 		this.attemptConnection()
 	}
