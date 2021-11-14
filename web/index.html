@@ -5,10 +5,11 @@
 	<meta name="viewport"
 		  content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
 	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<script src="https://cdn.socket.io/4.3.2/socket.io.min.js" integrity="sha384-KAZ4DtjNhLChOB/hxXuKqhMLYvx3b5MlT55xPEiNmREKRzeEm+RVPlTnAn0ajQNs" crossorigin="anonymous"></script>
 	<title>Distream</title>
 </head>
 <body>
-	<canvas id="streamBody" width="100vw" height="100vh"></canvas>
+	<canvas id="streamBody" width="1080" height="1920"></canvas>
 	<script src="./client.js"></script>
 	<script>
 		const client = new DisplayStreamerClient({})

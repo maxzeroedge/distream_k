@@ -24,13 +24,15 @@ repositories {
 }
 
 dependencies {
-    implementation("org.springframework.boot:spring-boot-starter-websocket")
+    implementation("org.springframework.boot:spring-boot-starter")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
+    implementation("org.projectlombok:lombok:1.18.20")
     // compileOnly("org.projectlombok:lombok")
     developmentOnly("org.springframework.boot:spring-boot-devtools")
     annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
     annotationProcessor("org.projectlombok:lombok")
+    implementation("org.projectlombok:lombok")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     implementation("com.google.code.gson:gson:2.8.8")
     /*implementation("org.webjars:webjars-locator-core")
@@ -38,6 +40,7 @@ dependencies {
     implementation("org.webjars:stomp-websocket:2.3.3")
     implementation("org.webjars:bootstrap:3.3.7")
     implementation("org.webjars:jquery:3.1.1-1")*/
+    implementation("com.corundumstudio.socketio:netty-socketio:1.7.19")
 }
 
 tasks.withType<KotlinCompile> {

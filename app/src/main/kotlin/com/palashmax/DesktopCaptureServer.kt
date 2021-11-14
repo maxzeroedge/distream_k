@@ -1,10 +1,15 @@
 package com.palashmax
 
 //import com.palashmax.server.TomcatSocketServer
+import com.corundumstudio.socketio.SocketIOServer
 import com.palashmax.server.DistreamSpringApplication
 import com.palashmax.server.SparkSocketServer
+import com.palashmax.server.spring.MessageModule
+import org.springframework.beans.BeanUtils
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.runApplication
+import org.springframework.context.ApplicationContext
+import org.springframework.context.ConfigurableApplicationContext
 import org.springframework.stereotype.Component
 import java.awt.Dimension
 import java.awt.Rectangle
@@ -26,12 +31,11 @@ class DesktopCaptureServer: Closeable {
 	private var portNumber: Int = 9000
 
 	@Value("\${system.fps}")
-	var framesPerSecond: Long = 60
+	var framesPerSecond: Long = 1 // with 60 it may crash system due to unprocessed images
 
 	private val clientSocketExecutors = Executors.newFixedThreadPool(5)
 	private val timer = Executors.newSingleThreadScheduledExecutor()
-	private lateinit var socketServer: ServerSocket
-	private lateinit var webSocketServer: SparkSocketServer
+	private lateinit var appContext: ConfigurableApplicationContext
 	// TODO: Use https://docs.oracle.com/javase/6/docs/api/java/awt/Robot.html for events
 
 	private var screenSize: Dimension = Toolkit.getDefaultToolkit().screenSize
@@ -72,14 +76,13 @@ class DesktopCaptureServer: Closeable {
 		timer.scheduleAtFixedRate(frameGrabber, 0, 1000/framesPerSecond, TimeUnit.MILLISECONDS)
 	}
 
-	fun createSocketServer(portNumber: Int = 9000) {
-		this.portNumber = portNumber
+	fun createWebSocketServer(portNumber: Int = 9000) {
+		appContext = runApplication<DistreamSpringApplication>("--sock-server.port=${portNumber}")
 		try {
-			socketServer = ServerSocket(this.portNumber)
 			runScreenImageUpdater()
-			while(true) {
-				val clientSocket = socketServer.accept()
-				val workerThread = SocketRequestHandler(clientSocket, this.framesPerSecond) { this.screenImage }
+			val clientSocket = appContext.getBean(MessageModule::class.java)
+			clientSocket.connectedEventHandler =  { client ->
+				val workerThread = SocketIORequestHandler(client, this.framesPerSecond) { this.screenImage }
 				clientSocketExecutors.execute(workerThread)
 			}
 		} catch(e: Exception) {
@@ -87,16 +90,8 @@ class DesktopCaptureServer: Closeable {
 		}
 	}
 
-	fun createWebSocketServer(portNumber: Int = 9000) {
-		/*this.portNumber = portNumber
-		this.webSocketServer = SparkSocketServer(portNumber)
-		webSocketServer.setup()*/
-		runApplication<DistreamSpringApplication>()
-	}
-
 	override fun close() {
-		socketServer.close()
-		webSocketServer.stop()
+		appContext.close()
 		timer.shutdown()
 		clientSocketExecutors.shutdown()
 	}
